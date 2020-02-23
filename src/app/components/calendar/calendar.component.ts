@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction'; 
 
 interface ICalendarEvent {
-  "id": number;
-  "title": string;
-  "start": string;
-  "end": string;
-  "backgroundColor": string;
+  id: number;
+  title: string;
+  start: string;
+  end: string;
+  backgroundColor: string;
 }
 
 enum ECalendarEventColor {
@@ -19,12 +19,11 @@ enum ECalendarEventColor {
 }
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  selector: "app-calendar",
+  templateUrl: "./calendar.component.html",
+  styleUrls: ["./calendar.component.scss"]
 })
 export class CalendarComponent implements OnInit {
-
   @Input()
   title: string;
 
@@ -38,31 +37,31 @@ export class CalendarComponent implements OnInit {
   selectedId: number;
 
   findEvent(info: any): number {
-    return this.events.findIndex( (element) => { 
-      return element.id == info.id 
+    return this.events.findIndex(element => {
+      return element.id == info.id;
     });
   }
 
   reloadEvents() {
-    this.events = [
-      ...this.events
-    ];
+    this.events = [...this.events];
   }
 
-  checkTitleIsSet(id: number): boolean{
-    return (this.events[id].title == undefined || this.events[id].title == '') ? false : true;
+  checkTitleIsSet(id: number): boolean {
+    return this.events[id].title == undefined || this.events[id].title == ""
+      ? false
+      : true;
   }
 
   add() {
     this.autoIncrement++;
     this.events.push({
-      "id": this.autoIncrement,
-      "title": this.title,
-      "start": this.selectionStart.toJSON(),
-      "end": this.selectionEnd.toJSON(),
-      "backgroundColor": undefined,
+      id: this.autoIncrement,
+      title: this.title,
+      start: this.selectionStart.toJSON(),
+      end: this.selectionEnd.toJSON(),
+      backgroundColor: undefined
     });
-    this.unselectEvent(this.findEvent({id: this.autoIncrement}));
+    this.unselectEvent(this.findEvent({ id: this.autoIncrement }));
     this.reloadEvents();
   }
 
@@ -86,11 +85,11 @@ export class CalendarComponent implements OnInit {
   }
 
   click(info: any) {
-    if(this.selectedId !== undefined) {
+    if (this.selectedId !== undefined) {
       this.unselectEvent(this.selectedId);
     }
     const index = this.findEvent(info);
-    if(this.selectedId == index) {
+    if (this.selectedId == index) {
       this.unselectEvent(this.selectedId);
       this.selectedId = undefined;
       this.reloadEvents();
@@ -102,7 +101,7 @@ export class CalendarComponent implements OnInit {
   }
 
   selectEvent(id: number) {
-    if(this.checkTitleIsSet(id)) {
+    if (this.checkTitleIsSet(id)) {
       this.events[id].backgroundColor = ECalendarEventColor.reservedSelected;
     } else {
       this.events[id].backgroundColor = ECalendarEventColor.unReservedSelected;
@@ -110,7 +109,7 @@ export class CalendarComponent implements OnInit {
   }
 
   unselectEvent(id: number) {
-    if(this.checkTitleIsSet(id)) {
+    if (this.checkTitleIsSet(id)) {
       this.events[id].backgroundColor = ECalendarEventColor.reserved;
     } else {
       this.events[id].backgroundColor = ECalendarEventColor.unReserved;
@@ -118,19 +117,19 @@ export class CalendarComponent implements OnInit {
   }
 
   remove() {
-    if(this.selectedId === undefined) {
+    if (this.selectedId === undefined) {
       return;
     }
-    this.events.splice(this.selectedId,1);
+    this.events.splice(this.selectedId, 1);
     this.selectedId = undefined;
     this.reloadEvents();
   }
 
   reserve() {
-    if(this.checkTitleIsSet(this.selectedId)) {
+    if (this.checkTitleIsSet(this.selectedId)) {
       return;
     }
-    if(this.title == '' || this.title === undefined) {
+    if (this.title == "" || this.title === undefined) {
       return;
     }
     this.events[this.selectedId].title = this.title;
@@ -139,82 +138,83 @@ export class CalendarComponent implements OnInit {
   }
 
   unreserve() {
-    if(!this.checkTitleIsSet(this.selectedId)) {
+    if (!this.checkTitleIsSet(this.selectedId)) {
       return;
     }
     this.events[this.selectedId].title = undefined;
-    this.events[this.selectedId].backgroundColor = ECalendarEventColor.unReserved;
+    this.events[this.selectedId].backgroundColor =
+      ECalendarEventColor.unReserved;
     this.reloadEvents();
   }
 
-  constructor() { 
+  constructor() {
     this.events = [
       {
-        "id": 0,
-        "title": "Norbert Bańkowski",
-        "start": "2019-07-28T07:00:00",
-        "end": "2019-07-28T08:00:00",
-        "backgroundColor": ECalendarEventColor.reserved
+        id: 0,
+        title: "Norbert Bańkowski",
+        start: "2019-07-28T07:00:00",
+        end: "2019-07-28T08:00:00",
+        backgroundColor: ECalendarEventColor.reserved
       },
       {
-        "id": 1,
-        "title": "Adam Nowak",
-        "start": "2019-07-28T08:00:00",
-        "end": "2019-07-28T09:00:00",
-        "backgroundColor": ECalendarEventColor.reserved
+        id: 1,
+        title: "Adam Nowak",
+        start: "2019-07-28T08:00:00",
+        end: "2019-07-28T09:00:00",
+        backgroundColor: ECalendarEventColor.reserved
       },
       {
-        "id": 2,
-        "title": "Jerzy Kowalski",
-        "start": "2019-07-28T09:00:00",
-        "end": "2019-07-28T10:00:00",
-        "backgroundColor": ECalendarEventColor.reserved
+        id: 2,
+        title: "Jerzy Kowalski",
+        start: "2019-07-28T09:00:00",
+        end: "2019-07-28T10:00:00",
+        backgroundColor: ECalendarEventColor.reserved
       },
       {
-        "id": 3,
-        "title": "Janek Brzoza",
-        "start": "2019-07-28T11:00:00",
-        "end": "2019-07-28T12:00:00",
-        "backgroundColor": ECalendarEventColor.reserved
+        id: 3,
+        title: "Janek Brzoza",
+        start: "2019-07-28T11:00:00",
+        end: "2019-07-28T12:00:00",
+        backgroundColor: ECalendarEventColor.reserved
       },
       {
-        "id": 4,
-        "title": undefined,
-        "start": "2019-07-28T12:00:00",
-        "end": "2019-07-28T13:00:00",
-        "backgroundColor": ECalendarEventColor.unReserved
+        id: 4,
+        title: undefined,
+        start: "2019-07-28T12:00:00",
+        end: "2019-07-28T13:00:00",
+        backgroundColor: ECalendarEventColor.unReserved
       }
-  ];
+    ];
   }
 
   ngOnInit() {
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
-      defaultDate: '2019-08-01',
-      defaultView: 'timeGridWeek',
-      selectable: true,      
+      defaultDate: "2019-08-01",
+      defaultView: "timeGridWeek",
+      selectable: true,
       customButtons: {
         add: {
-          text: 'Add',
+          text: "Add",
           click: () => this.add()
         },
         remove: {
-          text: 'Remove',
+          text: "Remove",
           click: () => this.remove()
         },
         reserve: {
-          text: 'Reserve',
+          text: "Reserve",
           click: () => this.reserve()
         },
         unreserve: {
-          text: 'Unreserve',
+          text: "Unreserve",
           click: () => this.unreserve()
-        },
+        }
       },
       header: {
-        left: 'prev,next,add,remove,reserve,unreserve',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        left: "prev,next,add,remove,reserve,unreserve",
+        center: "title",
+        right: "dayGridMonth,timeGridWeek,timeGridDay"
       },
       select: (info: any) => this.select(info),
       eventDrop: (info: any) => this.move(info.event),
@@ -223,5 +223,4 @@ export class CalendarComponent implements OnInit {
       editable: true
     };
   }
-
 }
